@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flash Hunter | 周边视觉感知训练</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-container">
+    <div class="fixation-cross">+</div>
+    <div id="target-dot" class="dot target hidden"></div>
+    <div id="score-panel">
+      <p>命中数: <span id="hit-count">0</span></p>
+      <p>未命中: <span id="miss-count">0</span></p>
+      <p>平均反应时间: <span id="reaction-time">0.0</span> 秒</p>
+    </div>
+    <div id="start-screen">
+      <h1>Flash Hunter</h1>
+      <button id="start-button">开始游戏</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

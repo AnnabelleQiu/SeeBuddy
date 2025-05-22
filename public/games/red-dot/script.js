@@ -219,8 +219,8 @@ summaryDisplay.innerHTML = `
   <h2>训练结束</h2>
   <p>你的得分是：<strong>${score}</strong></p>
   <p>${feedback}</p>
-  <p>📊 简单模式最高分：<strong>${easyHigh}</strong></p>
-  <p>📊 困难模式最高分：<strong>${hardHigh}</strong></p>
+  <p>🟢  简单模式最高分：<strong>${easyHigh}</strong></p>
+  <p>🔴  困难模式最高分：<strong>${hardHigh}</strong></p>
   <button onclick="prepareForNewGame()">再来一局</button>
   ${displayTrainingHistory()}
 `;

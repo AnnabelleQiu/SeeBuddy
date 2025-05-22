@@ -39,6 +39,25 @@
   <div id="score-marker" class="score-marker">⭐</div>
 </div>
 
+
+<button class="info-button" onclick="document.getElementById('infoOverlay').style.display='block'">❓ 训练说明</button>
+<div class="info-overlay" id="infoOverlay">
+  <div class="info-panel">
+    <h2>红点追踪器的训练目的</h2>
+    <p>本训练系统基于眼科视觉康复与神经行为学原理开发，旨在通过游戏化方式辅助儿童提升以下核心视觉与认知能力：</p>
+    <ul>
+      <li><strong>👁️ 眼球追踪：</strong>系统性锻炼眼球平滑追踪功能，提升对移动目标的视觉锁定能力</li>
+      <li><strong>⚡ 视觉反应速度：</strong>强化视觉信息处理路径，加快感知—判断—动作的反应链条</li>
+      <li><strong>🎯 手眼协调：</strong>增强眼睛与手指点击行为之间的协同准确性，改善视觉导向动作的精度</li>
+      <li><strong>🧒 专注力培养：</strong>通过定时、目标导向训练任务，提升持续注意力控制与干扰抵抗能力</li>
+    </ul>
+    <p>研究表明，视觉追踪类训练有助于提升儿童的视知觉发展、认知控制能力，并可辅助改善注意力缺陷、多动倾向、学习困难等问题。</p>
+    <p><strong>本系统所记录的训练数据可同步至医生管理端，用于行为趋势分析与个性化视训方案的制定，帮助实现循证式康复。</strong></p>
+    <button onclick="document.getElementById('infoOverlay').style.display='none'">关闭</button>
+  </div>
+</div>
+
+
  
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="script.js"></script>

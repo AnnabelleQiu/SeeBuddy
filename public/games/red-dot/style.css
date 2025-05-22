@@ -11,11 +11,31 @@ body {
 h1 {
   color: #d32f2f;
 }
+/* 默认尺寸，适合电脑 */
 canvas {
   border: 3px solid #999;
   background-color: #fff;
-  margin: 20px 0;
+  width: 600px; /* 显示尺寸 */
+  height: 400px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+
 }
+canvas:active {
+  cursor: crosshair;
+}
+
+
+/* 手机 & 平板 */
+@media (max-width: 768px) {
+  canvas {
+    width: 100%;     /* 撑满屏幕宽度 */
+    height: auto;    /* 等比例缩放 */
+  }
+}
+
 #score, #timer {
   font-size: 1.2rem;
   margin: 0.5rem;
@@ -43,6 +63,7 @@ button.hard {
 }
 
 button {
+  cursor:pointer;
   padding: 0.7rem 1.4rem;
   font-size: 1rem;
   background-color: #4caf50;
@@ -50,10 +71,67 @@ button {
   border: none;
   border-radius: 10px;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
+
 button:hover {
-  background-color: #45a049;
+  background-color: #43a047;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
+button:active {
+  background-color: #388e3c;
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+button.hard {
+  background-color: #d32f2f;
+}
+
+button.hard:hover {
+  background-color: #b12323;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+button.hard:active {
+  background-color: #8d1414;
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+select {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  background-color: white;
+  color: #333;
+  cursor: pointer;
+  appearance: none; /* 去除默认样式 */
+  outline: none;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+select:hover {
+  border-color: #888;
+}
+
+select:focus {
+  border-color: #2196f3;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.2);
+}
+.difficulty-tip {
+  margin-top: 0.8rem;
+  margin-bottom: 1rem; /* 增加下方间距 */
+  font-size: 0.95rem;
+  color: #555;
+  text-align: center;
+}
+
+
 .overlay {
   position: absolute;
   top: 50%;
@@ -87,6 +165,11 @@ button:hover {
 @keyframes pop {
   0% { opacity: 1; transform: scale(1); }
   100% { opacity: 0; transform: scale(2); }
+}
+
+
+.canvas-wrapper {
+  position: relative;
 }
 
 
@@ -169,3 +252,77 @@ button:hover {
 .history-panel br {
   line-height: 1.8;
 }
+
+
+
+  .info-button {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: linear-gradient(135deg, #2196f3, #21cbf3);
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+  transition: all 0.3s ease;
+}
+
+.info-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(33, 150, 243, 0.5);
+}
+
+.info-button:active {
+  transform: scale(0.97);
+  box-shadow: 0 3px 10px rgba(33, 150, 243, 0.2);
+  }
+
+  .info-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 998;
+  }
+
+  .info-panel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+  }
+
+  .info-panel h2 {
+    margin-top: 0;
+    color: #d32f2f;
+  }
+
+  .info-panel ul {
+    padding-left: 1.2rem;
+  }
+
+  .info-panel button {
+    margin-top: 1rem;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+  }
