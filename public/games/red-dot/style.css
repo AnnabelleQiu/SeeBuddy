@@ -89,19 +89,32 @@ button:hover {
   100% { opacity: 0; transform: scale(2); }
 }
 
-.canvas-wrapper {
+
+.score-wrapper {
   position: relative;
+  width: 80%;
+  margin: 1rem auto;
+  height: 40px;
 }
 
 .score-bar {
-  position: relative;
-  width: 80%;
-  height: 20px;
   display: flex;
-  margin: 1rem auto;
+  width: 100%;
+  height: 20px;
   border-radius: 10px;
-  overflow: hidden;
+  overflow: hidden; /* ✅ 可以保留 */
 }
+
+.score-marker {
+  position: absolute;
+  top: -10px;  /* 浮在上方 */
+  transform: translateX(-50%);
+  transition: left 0.3s ease;
+  font-size: 30px;
+  z-index: 10;
+  pointer-events: none;
+}
+
 
 .bar {
   height: 100%;
@@ -156,4 +169,3 @@ button:hover {
 .history-panel br {
   line-height: 1.8;
 }
-

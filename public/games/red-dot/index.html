@@ -21,7 +21,8 @@
     <option value="easy">🟢 简单</option>
     <option value="hard">🔴 进阶</option>
   </select>
-  <button id="controlBtn" onclick="toggleGame()">开始训练</button>
+<button id="controlBtn">开始训练</button>
+
 </div>
 <div id="difficultyTip" class="difficulty-tip">请选择训练模式</div>
 
@@ -29,12 +30,15 @@
   <div id="pauseOverlay" class="overlay" style="display: none;">⏸️ 已暂停</div>
   <div id="summary" class="overlay" style="display: none;"></div>
 
-<div class="score-bar">
-  <div class="bar red"></div>
-  <div class="bar yellow"></div>
-  <div class="bar green"></div>
+<div class="score-wrapper">
+  <div class="score-bar">
+    <div class="bar red"></div>
+    <div class="bar yellow"></div>
+    <div class="bar green"></div>
+  </div>
   <div id="score-marker" class="score-marker">⭐</div>
-</div> <!-- ←❗补上这个 -->
+</div>
+
  
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="script.js"></script>

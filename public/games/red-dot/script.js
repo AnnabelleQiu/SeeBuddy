@@ -5,8 +5,21 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 
+//改画布大小
+function resizeCanvas() {
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width;
+  canvas.height = rect.height;
+}
 
 
+//添加两个最高分统计函数
+function getHighScoreByDifficulty(difficulty) {
+  const records = JSON.parse(localStorage.getItem('trainingRecords') || '[]');
+  return records
+    .filter(r => r.difficulty === difficulty)
+    .reduce((max, r) => Math.max(max, Number(r.score)), 0);
+}
 
 /*点击红点音效*/
 const hitSound = new Audio('../../assets/sounds/hit-sound.mp3');
@@ -189,16 +202,30 @@ function showSummary() {
   if (score >= 20) feedback = '👑 非常优秀，反应超快！';
   else if (score >= 10) feedback = '👍 很好，继续练习！';
   else feedback = '👶 可以再试一次哦，加油训练！';
-  if (score > highScore) highScore = score;
+  const records = JSON.parse(localStorage.getItem('trainingRecords') || '[]');
 
-  summaryDisplay.innerHTML = `
-    <h2>训练结束</h2>
-    <p>你的得分是：<strong>${score}</strong></p>
-    <p>${feedback}</p>
-    <p>历史最高分：<strong>${highScore}</strong></p>
-    <button onclick="prepareForNewGame()">再来一局</button>
-    ${displayTrainingHistory()}
-  `;
+const maxRecord = records.reduce((max, r) => {
+  const s = Number(r.score);
+  return s > max ? s : max;
+}, 0);
+highScore = Math.max(Number(score), maxRecord);
+
+
+
+  const easyHigh = getHighScoreByDifficulty('easy');
+const hardHigh = getHighScoreByDifficulty('hard');
+
+summaryDisplay.innerHTML = `
+  <h2>训练结束</h2>
+  <p>你的得分是：<strong>${score}</strong></p>
+  <p>${feedback}</p>
+  <p>📊 简单模式最高分：<strong>${easyHigh}</strong></p>
+  <p>📊 困难模式最高分：<strong>${hardHigh}</strong></p>
+  <button onclick="prepareForNewGame()">再来一局</button>
+  ${displayTrainingHistory()}
+`;
+
+
   summaryDisplay.style.display = 'block';
 }
 
@@ -239,7 +266,6 @@ async function saveTrainingRecord(score) {
 
   // Supabase 存储
   const gameName = 'red-dot';
-game_name: gameName
 
   const { error } = await supabaseClient.from('training_records').insert([
     {
@@ -252,3 +278,11 @@ game_name: gameName
   ]);
   if (error) console.error('❌ Supabase 错误:', error.message);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  // ✅ 画布初始化（必须等 DOM 准备好）
+  resizeCanvas();
+
+  // ✅ 绑定开始按钮（如果你还用了 onclick="..." 也建议删掉，避免重复）
+  document.getElementById('controlBtn').addEventListener('click', toggleGame);
+});
