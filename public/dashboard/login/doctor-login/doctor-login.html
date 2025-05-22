@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>医生登录</title>
+</head>
+<body>
+  <h2>医生登录 / 注册</h2>
+  <input type="email" id="email" placeholder="邮箱">
+  <input type="password" id="password" placeholder="密码">
+  <br><br>
+  <button onclick="signUp()">注册医生账号</button>
+  <button onclick="signIn()">登录医生账号</button>
+  <p id="login-status"></p>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="doctor-login.js"></script>
+</body>
+</html>

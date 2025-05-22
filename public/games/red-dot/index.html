@@ -11,9 +11,33 @@
   <p>👁️ 用眼睛追踪红点的运动路径。点击红点以获得分数。</p>
   <div id="score">得分：0</div>
   <div id="timer">剩余时间：30 秒</div>
+  <div class="canvas-wrapper">
   <canvas id="gameCanvas" width="600" height="400"></canvas>
-  <button onclick="startGame()">开始训练</button>
+</div>
 
-  <script src="script.js"></script>
+<div class="controls">
+  <label for="difficulty">难度：</label>
+  <select id="difficulty">
+    <option value="easy">🟢 简单</option>
+    <option value="hard">🔴 进阶</option>
+  </select>
+  <button id="controlBtn" onclick="toggleGame()">开始训练</button>
+</div>
+<div id="difficultyTip" class="difficulty-tip">请选择训练模式</div>
+
+
+  <div id="pauseOverlay" class="overlay" style="display: none;">⏸️ 已暂停</div>
+  <div id="summary" class="overlay" style="display: none;"></div>
+
+<div class="score-bar">
+  <div class="bar red"></div>
+  <div class="bar yellow"></div>
+  <div class="bar green"></div>
+  <div id="score-marker" class="score-marker">⭐</div>
+</div> <!-- ←❗补上这个 -->
+ 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="script.js"></script>
+
 </body>
 </html>

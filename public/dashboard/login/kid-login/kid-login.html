@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>孩子登录 - SeeBuddy</title>
+  <link rel="stylesheet" href="kid-login.css" />
+</head>
+<body>
+  <div class="login-container">
+    <h1>👶 欢迎回来，小朋友！</h1>
+    <div class="tab-container">
+      <button id="loginTab" class="tab active">登录</button>
+      <button id="registerTab" class="tab">注册</button>
+    </div>
+    <form id="authForm">
+      <input type="email" id="email" placeholder="请输入邮箱" required />
+      <input type="password" id="password" placeholder="请输入密码" required />
+      <button type="submit" id="submitBtn">登录</button>
+    </form>
+    <p id="statusMessage"></p>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="kid-login.js"></script>
+</body>
+</html>

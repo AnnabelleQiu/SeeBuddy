@@ -1,0 +1,70 @@
+body {
+  background-color: #fff8e1;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-container {
+  background-color: #ffe0b2;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+h1 {
+  color: #ff6f00;
+  margin-bottom: 20px;
+}
+
+.tab-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tab {
+  background-color: #ffcc80;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.tab.active {
+  background-color: #ff6f00;
+  color: #fff;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+button#submitBtn {
+  background-color: #ff6f00;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#statusMessage {
+  margin-top: 15px;
+  color: red;
+}

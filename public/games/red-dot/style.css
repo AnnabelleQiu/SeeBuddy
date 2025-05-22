@@ -6,6 +6,7 @@ body {
   align-items: center;
   margin: 0;
   padding: 2rem;
+  position: relative;
 }
 h1 {
   color: #d32f2f;
@@ -19,6 +20,28 @@ canvas {
   font-size: 1.2rem;
   margin: 0.5rem;
 }
+
+.controls {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+button.easy {
+  background-color: #4caf50;
+}
+button.hard {
+  background-color: #d32f2f;
+}
+
+.difficulty-tip {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  color: #555;
+  text-align: center;
+}
+
 button {
   padding: 0.7rem 1.4rem;
   font-size: 1rem;
@@ -31,3 +54,106 @@ button {
 button:hover {
   background-color: #45a049;
 }
+.overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 2rem 3rem;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  z-index: 100;
+  text-align: center;
+  font-size: 1.5rem;
+  color: #333;
+  transition: opacity 0.3s ease;
+}
+.overlay button {
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  background-color: #2196f3;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+.overlay button:hover {
+  background-color: #1976d2;
+}
+
+/*点击红点出现星星*/
+@keyframes pop {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(2); }
+}
+
+.canvas-wrapper {
+  position: relative;
+}
+
+.score-bar {
+  position: relative;
+  width: 80%;
+  height: 20px;
+  display: flex;
+  margin: 1rem auto;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+}
+
+.red {
+  background-color: #f44336;
+  width: 33.33%;
+}
+
+.yellow {
+  background-color: #ffc107;
+  width: 33.33%;
+}
+
+.green {
+  background-color: #4caf50;
+  width: 33.34%;
+}
+
+.score-marker {
+  position: absolute;
+  top: -7px;
+  transform: translateX(-50%);
+  transition: left 0.3s ease;
+  font-size: 25px;
+}
+
+
+
+.history-panel {
+  margin-top: 1.5rem;
+  padding: 1rem 1.5rem;
+  background-color: #fdf6ec;
+  border-left: 6px solid #ffc107;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  font-size: 1rem;
+  color: #333;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
+.history-panel h3 {
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+  color: #d32f2f;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.history-panel br {
+  line-height: 1.8;
+}
+

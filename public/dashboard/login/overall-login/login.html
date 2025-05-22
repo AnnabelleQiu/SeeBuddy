@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SeeBuddy 登录入口</title>
+  <link rel="stylesheet" href="login.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #f7f8fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.3rem;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: #555;
+      margin-bottom: 2rem;
+    }
+    .role-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-block;
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 12px;
+      text-decoration: none;
+      color: white;
+      background: #4a90e2;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: all 0.2s ease-in-out;
+    }
+    .btn:hover {
+      background: #3a7bd5;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>👁️ SeeBuddy</h1>
+    <p class="subtitle">喜见眼科（SeeJoy）出品的儿童视觉训练平台</p>
+
+    <div class="role-buttons">
+      <a href="../kid-login.html" class="btn">我是孩子 👶</a>
+      <a href="../parent-login.html" class="btn">我是家长 🧑‍💼</a>
+      <a href="../doctor-login.html" class="btn">我是医生 🩺</a>
+
+    </div>
+  </div>
+  <script src="login.js"></script>
+</body>
+</html>
