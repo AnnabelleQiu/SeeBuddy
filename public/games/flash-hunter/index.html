@@ -7,19 +7,82 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="game-container">
-    <div class="fixation-cross">+</div>
-    <div id="target-dot" class="dot target hidden"></div>
-    <div id="score-panel">
-      <p>命中数: <span id="hit-count">0</span></p>
-      <p>未命中: <span id="miss-count">0</span></p>
-      <p>平均反应时间: <span id="reaction-time">0.0</span> 秒</p>
+  <!-- 🔘 训练说明弹窗按钮 -->
+  <button class="info-toggle" id="info-toggle">❓ 训练说明</button>
+
+  <!-- 📖 弹出式说明 -->
+  <section class="modal hidden" id="info-box">
+    <div class="modal-content">
+      <h2>🔴 红点追踪器的训练目的</h2>
+<p>本训练系统基于眼科视觉康复与神经行为学原理开发，旨在通过游戏化形式系统性提升儿童的核心视觉与执行功能：</p>
+<ul>
+  <li>👁️ <strong>眼球追踪：</strong> 系统锻炼眼球的平滑追踪能力，提升对移动视觉目标的持续锁定与跟随精度</li>
+  <li>⚡ <strong>视觉反应速度：</strong> 优化视觉感知—判断—动作的神经通路，提高视觉刺激的快速识别与响应效率</li>
+  <li>🎯 <strong>手眼协调：</strong> 增强视觉输入与手部动作之间的同步性与准确性，改善基于视觉导向的精细操作能力</li>
+  <li>🧠 <strong>注意力调控：</strong> 通过时限与目标驱动的点击任务，提升持续注意力与对视觉干扰的抑制能力</li>
+</ul>
+<p>大量研究表明，此类视觉认知训练可有效辅助儿童改善注意力缺陷、感统失调、多动冲动行为及相关学习障碍。</p>
+<p><strong>所有训练数据可同步至医生管理系统，支持行为趋势评估与个性化训练方案制定，助力实现科学、循证的视功能干预。</strong></p>
+
+      <button class="close-button" id="close-info">关闭</button>
     </div>
-    <div id="start-screen">
-      <h1>Flash Hunter</h1>
-      <button id="start-button">开始游戏</button>
+  </section>
+
+  <!-- 🧠 标题区 -->
+  <header class="main-header">
+    <h1>🌞 Flash Hunter</h1>
+    <p class="subtitle">— 周边视觉感知互动训练 —</p>
+  </header>
+
+  <!-- 📊 分数显示 -->
+  <aside id="score-panel" class="score-panel">
+    <p>命中数: <span id="hit-count">0</span></p>
+    <p>未命中: <span id="miss-count">0</span></p>
+    <p>平均反应时间: <span id="reaction-time">0.0</span> 秒</p>
+    <p>倒计时: <span id="countdown">0</span> 秒</p>
+  </aside>
+
+  <!-- 🎮 游戏主体区 -->
+  <main class="game-container">
+    <div class="fixation-cross">+</div>
+    <div id="target-dot" class="dot flashing hidden"></div>
+    <div id="distractors"></div>
+    
+
+    <!-- 🎬 开始界面 -->
+    <section id="start-screen" class="start-screen">
+      <div class="intro-panel">
+        <p><strong>训练目的：</strong> 锻炼儿童对非中心视觉刺激的敏感度，提升注意力广度与反应速度。</p>
+        <p><strong>玩法说明：</strong> 在中心注视“+”不动，寻找并点击随机闪现的小红点。</p>
+        <p><strong>注意：</strong> 命中后会加快节奏并增加干扰点。</p>
+      </div>
+      <button id="start-button">🎮 开始训练</button>
+      
+
+
+    </section>
+  </main>
+
+  <!-- 📋 训练结束界面 -->
+  <section id="end-screen" class="end-screen hidden">
+  <div class="end-summary">
+    <h2>✅ 训练完成！</h2>
+    <p>命中数: <span id="final-hit">0</span></p>
+    <p>未命中: <span id="final-miss">0</span></p>
+    <p>平均反应时间: <span id="final-reaction">0.0</span> 秒</p>
+    <p>正确率: <span id="final-accuracy">0%</span></p>
+
+    <button id="restart-button">🔁 重新训练</button>
+
+    <div class="history">
+      <h3>训练记录</h3>
+      <ul id="training-log"></ul>
     </div>
   </div>
+</section>
+
+<div id="countdown-overlay" class="countdown-overlay hidden"></div>
+  <!-- ⌨️ JS -->
   <script src="script.js"></script>
 </body>
 </html>
