@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>跳读小侦探 | Saccade Detective</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <header>
+    <h1>跳读小侦探</h1>
+    <p>依次朗读或点击：左边一个，右边一个</p>
+  </header>
+
+  <main>
+    <section class="char-grid">
+      <div class="char-column left">
+        <button class="char">E</button>
+        <button class="char">Q</button>
+        <button class="char">M</button>
+        <button class="char">Z</button>
+        <button class="char">S</button>
+      </div>
+      <div class="char-column right">
+        <button class="char">C</button>
+        <button class="char">7</button>
+        <button class="char">D</button>
+        <button class="char">2</button>
+        <button class="char">9</button>
+      </div>
+    </section>
+
+    <section class="controls">
+      <button id="start-speech">🎤 开始朗读</button>
+      <p id="speech-output">等待识别中...</p>
+    </section>
+
+    <section class="score">
+      <p>✅ 正确点击数：<span id="score">0</span></p>
+      <p>⭐ 获得星星：<span id="stars">0</span></p>
+    </section>
+
+    <footer>
+      <p>Powered by SeeBuddy</p>
+    </footer>
+  </main>
+</body>
+</html>

@@ -7,32 +7,53 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
   <!-- 🔘 训练说明弹窗按钮 -->
+  <div class="info-buttons">
+  <button class="info-toggle" id="guide-toggle">📘 玩法介绍</button>
   <button class="info-toggle" id="info-toggle">❓ 训练说明</button>
+</div>
 
   <!-- 📖 弹出式说明 -->
-  <section class="modal hidden" id="info-box">
+  <section class="modal hidden" id="guide-box">
+    <div class="modal-content">
+    <h2>📘 游戏玩法介绍</h2>
+    <ul>
+      <li>🔍 注视中央「+」，等待小红点在任意角落出现。</li>
+      <li>⏱ 限定时间内快速点击红点。</li>
+      <li>🚨 红点颜色每轮变化，干扰点颜色相同。</li>
+      <li>🎯 命中后节奏加快，干扰点数量上升。</li>
+      <li>📊 训练结束后可查看准确率与历史记录。</li>
+    </ul>
+    <button class="close-button" id="close-guide">关闭</button>
+  </div>
+</section>
+
+
+<section class="modal hidden" id="info-box">
     <div class="modal-content">
       <h2>🔴 红点追踪器的训练目的</h2>
-<p>本训练系统基于眼科视觉康复与神经行为学原理开发，旨在通过游戏化形式系统性提升儿童的核心视觉与执行功能：</p>
-<ul>
-  <li>👁️ <strong>眼球追踪：</strong> 系统锻炼眼球的平滑追踪能力，提升对移动视觉目标的持续锁定与跟随精度</li>
-  <li>⚡ <strong>视觉反应速度：</strong> 优化视觉感知—判断—动作的神经通路，提高视觉刺激的快速识别与响应效率</li>
-  <li>🎯 <strong>手眼协调：</strong> 增强视觉输入与手部动作之间的同步性与准确性，改善基于视觉导向的精细操作能力</li>
-  <li>🧠 <strong>注意力调控：</strong> 通过时限与目标驱动的点击任务，提升持续注意力与对视觉干扰的抑制能力</li>
-</ul>
-<p>大量研究表明，此类视觉认知训练可有效辅助儿童改善注意力缺陷、感统失调、多动冲动行为及相关学习障碍。</p>
-<p><strong>所有训练数据可同步至医生管理系统，支持行为趋势评估与个性化训练方案制定，助力实现科学、循证的视功能干预。</strong></p>
+        <p>本训练系统基于眼科视觉康复与神经行为学原理开发，旨在通过游戏化形式系统性提升儿童的核心视觉与执行功能：</p>
+        <ul>
+        <li>👁️ <strong>眼球追踪：</strong> 系统锻炼眼球的平滑追踪能力，提升对移动视觉目标的持续锁定与跟随精度</li>
+        <li>⚡ <strong>视觉反应速度：</strong> 优化视觉感知—判断—动作的神经通路，提高视觉刺激的快速识别与响应效率</li>
+        <li>🎯 <strong>手眼协调：</strong> 增强视觉输入与手部动作之间的同步性与准确性，改善基于视觉导向的精细操作能力</li>
+        <li>🧠 <strong>注意力调控：</strong> 通过时限与目标驱动的点击任务，提升持续注意力与对视觉干扰的抑制能力</li>
+        </ul>
+        <p>大量研究表明，此类视觉认知训练可有效辅助儿童改善注意力缺陷、感统失调、多动冲动行为及相关学习障碍。</p>
+        <p><strong>所有训练数据可同步至医生管理系统，支持行为趋势评估与个性化训练方案制定，助力实现科学、循证的视功能干预。</strong></p>
 
       <button class="close-button" id="close-info">关闭</button>
     </div>
   </section>
 
   <!-- 🧠 标题区 -->
-  <header class="main-header">
-    <h1>🌞 Flash Hunter</h1>
-    <p class="subtitle">— 周边视觉感知互动训练 —</p>
-  </header>
+<header class="main-header">
+  <h1 class="main-title-cn">🌞 闪点猎手</h1>
+  <h2 class="main-title-en">Flash Hunter</h2>
+  <p class="subtitle">- 周边视觉感知互动训练 -</p>
+</header>
+
 
   <!-- 📊 分数显示 -->
   <aside id="score-panel" class="score-panel">
@@ -69,16 +90,40 @@
     <h2>✅ 训练完成！</h2>
     <p>命中数: <span id="final-hit">0</span></p>
     <p>未命中: <span id="final-miss">0</span></p>
-    <p>平均反应时间: <span id="final-reaction">0.0</span> 秒</p>
+    <p>每局平均反应时间: <span id="final-reaction">0.0</span> 秒</p>
     <p>正确率: <span id="final-accuracy">0%</span></p>
+    
+   <div class="button-group">
+  <button id="restart-button" class="cta-button green">🔁 重新训练</button>
+  <button id="export-button" class="cta-button blue">📩 导出记录</button>
+</div>
 
-    <button id="restart-button">🔁 重新训练</button>
 
-    <div class="history">
-      <h3>训练记录</h3>
-      <ul id="training-log"></ul>
-    </div>
+
+    
+
+    
+
+   <div class="history">
+  <h3>训练记录</h3>
+  <div class="history-averages">
+    <p class="history-average">📊 平均正确率（历史记录）：<span id="average-accuracy">--%</span></p>
+    <p class="history-average">⏱ 平均反应时间（历史记录）：<span id="average-reaction">-- 秒</span></p>
   </div>
+  <table id="training-log-table">
+  <thead>
+    <tr>
+      <th>日期</th>
+      <th>得分</th>
+      <th>正确率</th>
+      <th>平均反应时间</th>
+    </tr>
+  </thead>
+  <tbody id="training-log"></tbody>
+</table>
+
+</div>
+
 </section>
 
 <div id="countdown-overlay" class="countdown-overlay hidden"></div>

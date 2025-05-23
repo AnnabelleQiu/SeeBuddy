@@ -1,3 +1,17 @@
+const bubbleSound = new Audio('../../assets/sounds/bubble.mp3');
+
+// 1. 加载失败提示
+bubbleSound.onerror = () => {
+  console.warn('❌ bubble.mp3 加载失败');
+};
+
+// 2. 第一次点击页面解锁音频
+document.body.addEventListener('click', () => {
+  bubbleSound.play().catch(() => {});
+}, { once: true });
+
+
+
 // DOM 元素引用
 const startButton = document.getElementById('start-button');
 const restartButton = document.getElementById('restart-button');
@@ -51,9 +65,36 @@ function getRandomThemeColor() {
   return colorPool[Math.floor(Math.random() * colorPool.length)];
 }
 
-function createDistractors(count = 10) {
+function createDistractors(count = 20) {
   distractorContainer.innerHTML = '';
-  for (let i = 0; i < count; i++) {
+  const placed = [];
+
+  for (let i = 0; i < count; i++) 
+    {
+    let attempts = 0;
+    let pos;
+    let isOverlapping = false;
+    do {
+      pos = getRandomPosition();
+      isOverlapping = placed.some(p => {
+        const dx = p.x - pos.x;
+        const dy = p.y - pos.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        return dist < 28; // 两点距离 <28 像素视为重叠
+      });
+      attempts++;
+    } while (isOverlapping && attempts < 50); // 最多尝试 50 次
+if (attempts < 50) {
+      placed.push(pos);
+      const d = document.createElement('div');
+      d.classList.add('dot', 'distractor');
+      d.style.left = `${pos.x}px`;
+      d.style.top = `${pos.y}px`;
+      d.style.backgroundColor = currentTargetColor;
+      distractorContainer.appendChild(d);
+    }
+  }
+
     const d = document.createElement('div');
     d.classList.add('dot', 'distractor');
     const pos = getRandomPosition();
@@ -62,7 +103,7 @@ function createDistractors(count = 10) {
     d.style.backgroundColor = currentTargetColor;
     distractorContainer.appendChild(d);
   }
-}
+
 
 function updateScore() {
   hitCountEl.textContent = hitCount;
@@ -73,7 +114,7 @@ function updateScore() {
 }
 
 function showTarget() {
-  currentTargetColor = getRandomThemeColor();
+  
   const pos = getRandomPosition();
   targetDot.style.left = `${pos.x}px`;
   targetDot.style.top = `${pos.y}px`;
@@ -101,19 +142,51 @@ function showTarget() {
   }, timeLimit * 1000);
 }
 
+//难度曲线
 function checkNextRound() {
   if (totalRounds < roundLimit) {
     setTimeout(() => {
-      createDistractors(12 + Math.floor(hitCount / 2) * 2);
+      currentTargetColor = getRandomThemeColor();
+      const distractorCount = getDistractorCount(totalRounds);
+      createDistractors(distractorCount);
       showTarget();
     }, 1000);
   } else {
     showSummary();
+    renderLogs(); // ✅ 主动执行渲染
+
   }
 }
+function renderLogs() {
+  const logs = JSON.parse(localStorage.getItem('trainingLogs') || '[]');
+  logList.innerHTML = '';
+  logs.forEach(item => {
+    const match = item.match(/^(\d{4}-\d{2}-\d{2})：(\d+) 分 \/ (\d+) 次（正确率 ([\d.]+)%[，,]?\s*平均反应时间[:：]?\s*([\d.]+) 秒）?$/);
+    if (match) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${match[1]}</td>
+        <td>${match[2]} / ${match[3]}</td>
+        <td>${match[4]}%</td>
+        <td>${match[5]} 秒</td>
+      `;
+      logList.appendChild(tr);
+    }
+  });
+}
+
+function getDistractorCount(round) {
+  return Math.min( 20 + round * 5, 100); // 每轮+3个干扰点，最多60个
+}
+
+
+
 
 function showSummary() {
+  const reaction = reactionTimeEl.textContent; // 当前轮的平均反应时间
   const accuracy = totalRounds > 0 ? ((hitCount / totalRounds) * 100).toFixed(1) + '%' : '0%';
+
+  
   finalHit.textContent = hitCount;
   finalMiss.textContent = missCount;
   finalReaction.textContent = reactionTimeEl.textContent;
@@ -121,24 +194,75 @@ function showSummary() {
   endScreen.classList.remove('hidden');
 
   const date = new Date().toISOString().split('T')[0];
-  const newRecord = `📅 ${date}：${hitCount} 分 / ${totalRounds} 次（正确率 ${accuracy})`;
+  const rawAccuracy = ((hitCount / totalRounds) * 100).toFixed(1);
+const newRecord = `${date}：${hitCount} 分 / ${totalRounds} 次（正确率 ${rawAccuracy}%，平均反应时间：${reaction} 秒）`;
+
+
+
   let logs = JSON.parse(localStorage.getItem('trainingLogs') || '[]');
-  if (logs.length >= 10) logs.shift();
-  logs.push(newRecord);
-  localStorage.setItem('trainingLogs', JSON.stringify(logs));
-  logList.innerHTML = '';
-  logs.forEach(item => {
-    const li = document.createElement('li');
-    li.textContent = item;
-    logList.appendChild(li);
+
+
+ logs.unshift(newRecord); // ✅ 插入到最前面
+if (logs.length > 10) logs.pop(); // ✅ 删除最后一项
+localStorage.setItem('trainingLogs', JSON.stringify(logs));
+logList.innerHTML = '';
+logs.forEach(item => {
+  const match = item.match(/^(\d{4}-\d{2}-\d{2})：(\d+) 分 \/ (\d+) 次（正确率 ([\d.]+)%[，,] 平均反应时间[:：] ?([\d.]+) 秒[）)]?/);
+  if (match) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${match[1]}</td>
+      <td>${match[2]} / ${match[3]}</td>
+      <td>${match[4]}%</td>
+      <td>${match[5]} 秒</td>
+    `;
+    logList.appendChild(tr);
+  }
+});
+
+
+
+  // 计算平均正确率
+  let totalHit = 0;
+  let totalRoundsAll = 0;
+  logs.forEach(log => {
+  const match = log.match(/(\d+)\s*分\s*\/\s*(\d+)\s*次/);
+
+    if (match) {
+      totalHit += parseInt(match[1]);
+      totalRoundsAll += parseInt(match[2]);
+    }
   });
+  const avgAccuracy = totalRoundsAll > 0 ? ((totalHit / totalRoundsAll) * 100).toFixed(1) + '%' : '--%';
+  const avgDisplay = document.getElementById('average-accuracy');
+  if (avgDisplay) avgDisplay.textContent = avgAccuracy;
+
+  // 计算平均反应时间
+  let totalTime = 0;
+  let validCount = 0;
+  logs.forEach(log => {
+    const match = log.match(/平均反应时间[:：] ?([\d.]+) 秒/);
+    if (match) {
+      totalTime += parseFloat(match[1]);
+      validCount++;
+    }
+  });
+  const avgTime = validCount > 0 ? (totalTime / validCount).toFixed(2) + ' 秒' : '-- 秒';
+  const avgTimeDisplay = document.getElementById('average-reaction');
+  if (avgTimeDisplay) avgTimeDisplay.textContent = avgTime;
 }
+
+            
+
 
 // 点中目标
 targetDot.addEventListener('click', () => {
   clearTimeout(roundTimer);
   clearInterval(countdownInterval);
   targetDot.classList.add('hidden');
+  bubbleSound.currentTime = 0; // 允许连续点击播放
+bubbleSound.play();
+
   const reaction = (Date.now() - showTime) / 1000;
   totalReactionTime += reaction;
   hitCount++;
@@ -189,19 +313,76 @@ restartButton.addEventListener('click', () => {
   startCountdown(() => showTarget());
 });
 
-infoToggle.addEventListener('click', () => {
-  infoBox.classList.remove('hidden');
-});
-
-closeInfo.addEventListener('click', () => {
-  infoBox.classList.add('hidden');
-});
 
 window.addEventListener('DOMContentLoaded', () => {
   const logs = JSON.parse(localStorage.getItem('trainingLogs') || '[]');
+  const logList = document.getElementById('training-log'); // <tbody> 元素
+
   logs.forEach(item => {
-    const li = document.createElement('li');
-    li.textContent = item;
-    logList.appendChild(li);
+    const match = item.match(/^(\d{4}-\d{2}-\d{2})：(\d+) 分 \/ (\d+) 次（正确率 ([\d.]+)%[，,]?\s*平均反应时间[:：]?\s*([\d.]+) 秒）?$/);
+
+    if (match) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${match[1]}</td>
+        <td>${match[2]} / ${match[3]}</td>
+        <td>${match[4]}%</td>
+        <td>${match[5]} 秒</td>
+      `;
+      logList.appendChild(tr);
+    }
   });
+
+  const exportBtn = document.getElementById('export-button');
+  if (exportBtn) exportBtn.addEventListener('click', exportLogs);
 });
+
+
+// 控制“玩法介绍”
+const guideToggle = document.getElementById('guide-toggle');
+const guideBox = document.getElementById('guide-box');
+const closeGuide = document.getElementById('close-guide');
+
+guideToggle.addEventListener('click', () => {
+  guideBox.classList.remove('hidden');
+});
+closeGuide.addEventListener('click', () => {
+  guideBox.classList.add('fadeout'); // 👉 对 guideBox 添加动画
+  setTimeout(() => {
+    guideBox.classList.remove('fadeout');
+    guideBox.classList.add('hidden');
+  }, 400);
+});
+
+// 训练说明
+infoToggle.addEventListener('click', () => {
+  infoBox.classList.remove('hidden'); 
+});
+
+closeInfo.addEventListener('click', () => {
+  infoBox.classList.add('fadeout'); // 添加淡出动画
+  setTimeout(() => {
+    infoBox.classList.remove('fadeout'); // 移除动画类名
+    infoBox.classList.add('hidden');     // 隐藏
+  }, 400); // 和 CSS 动画时长一致
+});
+
+function exportLogs() {
+  const logs = JSON.parse(localStorage.getItem('trainingLogs') || '[]');
+  let csv = '日期,得分,正确率,平均反应时间\n';
+
+  logs.forEach(item => {
+const match = item.match(/^(\d{4}-\d{2}-\d{2})：(\d+) 分 \/ (\d+) 次（正确率 ([\d.]+)[％%][，,]?\s*平均反应时间[:：]?\s*([\d.]+) 秒）?$/);
+
+    if (match) {
+      csv += `${match[1]},${match[2]} / ${match[3]},${match[4]}%,${match[5]} 秒\n`;
+    }
+  });
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'training_logs.csv';
+  link.click();
+}
+
